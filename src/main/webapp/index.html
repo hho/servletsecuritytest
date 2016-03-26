@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dummy App</title>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+	}
+	.tt {
+		font-size: 110%;
+		font-family: monospace;
+	}
+	dd {
+		margin-bottom: 1em;
+	}
+</style>
+</head>
+<body>
+	<h2>Test Basic Auth</h2>
+	<p>
+		This dummy app has a servlet mapped on <span class="tt">/api/*</span>.
+	</p>
+	<p>
+		You can access the API freely, except for the endpoints under
+		<span class="tt">/api/devicemanagement/gateways</span>, those need authentication.
+	</p>
+	<p>
+		Definition in <span class="tt">web.xml</span>:
+	</p>
+	<pre>	&lt;security-constraint&gt;
+		&lt;web-resource-collection&gt;
+			&lt;web-resource-name&gt;Special API methods&lt;/web-resource-name&gt;
+			&lt;url-pattern&gt;/api/devicemanagement/gateways/*&lt;/url-pattern&gt;
+		&lt;/web-resource-collection&gt;
+		&lt;auth-constraint&gt;
+			&lt;role-name&gt;user&lt;/role-name&gt;
+		&lt;/auth-constraint&gt;
+	&lt;/security-constraint&gt;</pre>
+	<h3>Examples</h3>
+	<dl>
+		<dt><a href="/api/some-endpoint" class="tt">/api/some-endpoint</a></dt>
+		<dd>should be available without authentication</dd>
+		<dt><a href="/api/devicemanagement/gateways/add" class="tt">/api/devicemanagement/gateways/add</a></dt>
+		<dd>should be protected</dd>
+		<dt><a href="/api//devicemanagement/gateways/add" class="tt">/api//devicemanagement/gateways/add</a></dt>
+		<dd>should also be protected &ndash; <b style="color:red">but in Jetty, it's not!</b></dd>
+	</dl>
+</body>
+</html>
